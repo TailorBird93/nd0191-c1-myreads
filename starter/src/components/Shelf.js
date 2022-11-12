@@ -4,7 +4,8 @@ import "../App.css"
 import Book from "./Book";
 
 const Shelf= ({books, title, handleChange}) => {
-
+    const bookNoImage=books.filter(book=> (book.imageLinks.thumbnail==false))
+    console.log(bookNoImage)
     return (
         <>
         <h2 className="bookshelf-title">{title}</h2>
