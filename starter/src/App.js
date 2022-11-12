@@ -1,5 +1,7 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+import {getAll} from "./BooksAPI";
 
 import SearchPage from "./components/SearchPage";
 import Header from "./components/Header";
@@ -9,6 +11,15 @@ import OpenSearch from "./components/OpenSearch";
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
 
+  const [books, setBooks] = useState([]);
+
+  useEffect (() => {
+    getAll().then((books) => {
+      setBooks(books);
+    })
+  }, []);
+
+
   return (
     <div className="app">
       {showSearchPage ? (
@@ -16,7 +27,7 @@ function App() {
       ) : (
         <div className="list-books">
           <Header />
-          <Shelves />
+          <Shelves books={books} setBooks={setBooks}/>
           <OpenSearch showSearchPage={showSearchPage} setShowSearchpage={setShowSearchpage}/>
         </div>
       )}

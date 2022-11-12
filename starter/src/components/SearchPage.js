@@ -1,4 +1,5 @@
 import React from "react"
+import "../App.css"
 
 const SearchPage= ({showSearchPage, setShowSearchpage}) => {
     return (

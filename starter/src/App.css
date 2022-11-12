@@ -11,6 +11,7 @@ body,
   background: white;
 }
 
+
 /* main page */
 
 .list-books-title {
@@ -42,8 +43,14 @@ body,
 .bookshelf-title {
   border-bottom: 1px solid #dedede;
 }
+
+/* Changes to books not displaying in a row but rather in a column */
 .bookshelf-books {
   text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding:20px;
+  justify-content: space-around;
 }
 
 .open-search {
@@ -114,6 +121,7 @@ body,
   margin: 0;
 
   display: flex;
+  flex-direction: row;
   justify-content: center;
   flex-wrap: wrap;
 }
