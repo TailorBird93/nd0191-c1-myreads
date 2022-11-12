@@ -3,21 +3,20 @@ import "../App.css"
 
 import Book from "./Book";
 
-const Shelf= ({books, setBooks, title}) => {
+const Shelf= ({books, title, handleChange}) => {
 
     return (
         <>
         <h2 className="bookshelf-title">{title}</h2>
         <div className="bookshelf-books">
-            {books.map((book)=>{
-            const bookTitle=book.title;
-            const author=book.authors[0];
-            const image=book.imageLinks.thumbnail; 
-                return (
-                    <Book bookTitle={bookTitle} author={author} image={image}/>
-                )
-            })}                
-            
+            <ol className="books-grid">
+                    {books.map(b => (
+                        <li key={b.id}>
+                            <Book book={b} handleChange={handleChange}/>
+                        </li>
+                    ))}
+
+            </ol>
         </div>
         
         </>

@@ -1,7 +1,7 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 
-import {getAll} from "./BooksAPI";
+import {getAll, update} from "./BooksAPI";
 
 import SearchPage from "./components/SearchPage";
 import Header from "./components/Header";
@@ -13,11 +13,19 @@ function App() {
 
   const [books, setBooks] = useState([]);
 
+
+
+  async function handleChange (book, shelf) {
+    await update(book, shelf);
+    setBooks(books.filter( b => b.id !== book.id ).concat({...book, shelf}))};
+
   useEffect (() => {
     getAll().then((books) => {
       setBooks(books);
     })
   }, []);
+
+  console.log(books);
 
 
   return (
@@ -27,7 +35,7 @@ function App() {
       ) : (
         <div className="list-books">
           <Header />
-          <Shelves books={books} setBooks={setBooks}/>
+          <Shelves books={books} setBooks={setBooks} handleChange={handleChange}/>
           <OpenSearch showSearchPage={showSearchPage} setShowSearchpage={setShowSearchpage}/>
         </div>
       )}
