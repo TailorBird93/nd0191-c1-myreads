@@ -38,10 +38,7 @@ function App() {
       setBooks(books);
     })
   }, []);
-
-  console.log(books);
-
-
+  
   return (
     <div className="app">
       {showSearchPage ? (
