@@ -8,7 +8,7 @@ import Header from "./components/Header";
 import Shelves from "./components/Shelves";
 import OpenSearch from "./components/OpenSearch";
 
-function App() {
+function App({book}) {
   const [showSearchPage, setShowSearchpage] = useState(false);
 
   const [books, setBooks] = useState([]);
@@ -16,22 +16,38 @@ function App() {
 
   const [findBooks, setFindBooks] = useState([]);
 
-  const lookForBook= async (e) => {
-    const response = await search(e.target.value, 0);
-      if (Array.isArray(response)) {
-        setFindBooks(response);
-        document.getElementById("noBooks").innerHTML="Matching Titles:"
+  const lookForBook= async (e, item) => {
+    const response = await search(e.target.value, item);
+      if (response && !response.error) {
+        setFindBooks(response.map((book) => {
+          document.getElementById("noBooks").innerHTML="Matching Titles:"
+        const bookFound= books.find((item) =>
+          item.id===book.id)
+      if (bookFound){
+        const newBook={...book, shelf:bookFound.shelf}
+        return newBook;
+      } 
+      return {...book, shelf:"none"}
+        })) 
       } else {
         setFindBooks([]);
         document.getElementById("noBooks").innerHTML="No Matching Titles. Please enter a valid name"
       }
   } 
 
+// New function 
+async function handleChange (book, shelf) {
+  await update(book, shelf);
+  const updateBook = {...book, shelf: shelf };
+  setBooks((books) => {
+   const newBook = books.filter( b => b.id !== book.id ).concat(updateBook)
+   return newBook;
+  });
+};
 
-
-  async function handleChange (book, shelf) {
-    await update(book, shelf);
-    setBooks(books.filter( b => b.id !== book.id ).concat({...book, shelf}))};
+  // async function handleChange (book, shelf) {
+  //   await BooksAPI.update(book, shelf);
+  //   setBooks(books.filter( b => b.id !== book.id ).concat({...book, shelf}))};
 
   useEffect (() => {
     getAll().then((books) => {
@@ -69,7 +85,7 @@ function App() {
         <div className="list-books">
           <Header />
           <Shelves books={books} setBooks={setBooks} handleChange={handleChange}/>
-          <OpenSearch showSearchPage={showSearchPage} setShowSearchpage={setShowSearchpage} handleChange={handleChange}/>
+          <OpenSearch book={book} showSearchPage={showSearchPage} setShowSearchpage={setShowSearchpage} handleChange={handleChange}/>
         </div>
       )}
     </div>

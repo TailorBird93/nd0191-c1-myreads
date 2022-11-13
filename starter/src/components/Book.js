@@ -4,6 +4,7 @@ import background from "../img/images.png";
 
 
 const Book = ({book, handleChange}) => {
+    // const {imageLinks, authors, title}=book
     return (
         <div className="book">
 
@@ -18,7 +19,7 @@ const Book = ({book, handleChange}) => {
                 <div className="book-shelf-changer">
                     <select defaultValue={book.shelf ? book.shelf : "none"}
                      onChange={(e) => handleChange(book, e.target.value)}>
-                        <option value="none" disabled>
+                        <option disabled>
                         Move to...
                         </option>
                         <option value="currentlyReading">
